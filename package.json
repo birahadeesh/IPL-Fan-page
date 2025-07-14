@@ -4,7 +4,7 @@
   "description": "Welcome to the most passionate fan page for the legendary Chennai Super Kings! This isn't just another website - it's a digital celebration of the team that has captured millions of hearts with their consistent excellence and never-say-die spirit.",
   "main": "proxy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node proxy.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.6.7"
   }
 }
