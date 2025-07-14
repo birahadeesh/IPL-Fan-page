@@ -122,26 +122,6 @@ Works perfectly on:
 - **Lazy Loading**: Elements animate only when needed
 - **Minimal JavaScript**: Lightweight and fast
 
-## 🎨 Customization
-
-Want to make it your own? Here's how:
-
-### Colors
-Edit the CSS custom properties in `styles.css`:
-```css
-:root {
-    --primary-color: #fdb913;
-    --secondary-color: #1e3a8a;
-    /* Add your own colors here */
-}
-```
-
-### Content
-Update the HTML to feature your favorite players or add new sections.
-
-### Animations
-Modify the JavaScript to add new interactive effects.
-
 ## 🏆 Why CSK Deserves This
 
 Chennai Super Kings isn't just a cricket team - it's an emotion. With:
