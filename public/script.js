@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 const res = await fetch(CRICKET_API_URL);
                 const data = await res.json();
-                if (!data || !data.data || !Array.isArray(data.data)) {
+                if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
                     updateTicker({
                         label: 'LIVE',
                         match: 'No live matches right now',
@@ -319,23 +319,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     return;
                 }
-                // Find a live IPL match if possible, else any live match
-                let liveMatch = data.data.find(m => m.status === 'live' && m.name && m.name.toLowerCase().includes('ipl'));
-                if (!liveMatch) {
-                    liveMatch = data.data.find(m => m.status === 'live');
-                }
-                if (!liveMatch) {
-                    updateTicker({
-                        label: 'LIVE',
-                        match: 'No live matches right now',
-                        score: '',
-                        status: ''
-                    });
-                    return;
-                }
-                // Format the match info
+                // Show the first available match (any league)
+                const liveMatch = data.data[0];
                 const matchName = liveMatch.name || `${liveMatch.teams?.join(' vs ')}`;
-                const score = liveMatch.score ? liveMatch.score : '';
+                let score = '';
+                if (liveMatch.score && Array.isArray(liveMatch.score) && liveMatch.score.length > 0) {
+                    score = liveMatch.score.map(s => `${s.inning}: ${s.r}/${s.w} (${s.o} ov)`).join(' | ');
+                }
                 const status = liveMatch.status || '';
                 updateTicker({
                     label: 'LIVE',
@@ -346,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } catch (err) {
                 updateTicker({
                     label: 'LIVE',
-                    match: 'Error fetching live score',
+                    match: 'No live matches right now',
                     score: '',
                     status: ''
                 });

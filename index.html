@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chennai Super Kings - Whistle Podu! 🦁</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/en/2/2b/Chennai_Super_Kings_Logo.svg" alt="CSK Logo">
+                <span>CSK Fan Zone</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#heroes">Heroes</a></li>
+                <li><a href="#timeline">History</a></li>
+                <li><a href="#stats">Stats</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#fans">Fans</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Live Match Ticker -->
+    <div class="live-ticker">
+        <div class="ticker-content">
+            <span class="ticker-label">LIVE</span>
+            <span class="ticker-text">CSK vs MI - Live from Wankhede Stadium</span>
+            <span class="ticker-score">CSK 156/4 (18.2) | MI 89/6 (12.1)</span>
+            <span class="ticker-status">CSK needs 23 runs in 10 balls</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="glitch" data-text="WHISTLE PODU!">WHISTLE PODU!</h1>
+                <h2>Chennai Super Kings</h2>
+                <p class="hero-subtitle">The Kings of IPL Cricket</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Titles</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">14</span>
+                        <span class="stat-label">Seasons</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="cta-button">Join the Yellow Army</button>
+                    <button class="anthem-button" id="playAnthem">
+                        <i class="fas fa-music"></i>
+                        Play Anthem
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-elements">
+                    <div class="floating-element" data-speed="2">🏏</div>
+                    <div class="floating-element" data-speed="1.5">🏆</div>
+                    <div class="floating-element" data-speed="3">🦁</div>
+                    <div class="floating-element" data-speed="2.5">⭐</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Team Heroes Section -->
+    <section id="heroes" class="heroes">
+        <div class="container">
+            <h2 class="section-title">Our Legends</h2>
+            <div class="heroes-grid">
+                <div class="hero-card" data-aos="fade-up">
+                    <div class="hero-image">
+                        <img src="ms dhoni.png" alt="MS Dhoni">
+                    </div>
+                    <div class="hero-info">
+                        <h3>MS Dhoni</h3>
+                        <p class="hero-role">Captain Cool</p>
+                        <p class="hero-desc">The legendary captain who led CSK to 5 IPL titles with his calm leadership
+                            and finishing skills.</p>
+                        <div class="hero-stats">
+                            <span>🏏 4,978 runs</span>
+                            <span>🏆 5 titles</span>
+                        </div>
+                        <button class="hero-btn" onclick="showPlayerModal('dhoni')">View Profile</button>
+                    </div>
+                </div>
+
+                <div class="hero-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="hero-image">
+                        <img src="suresh raina.png" alt="Suresh Raina">
+                    </div>
+                    <div class="hero-info">
+                        <h3>Suresh Raina</h3>
+                        <p class="hero-role">Mr. IPL</p>
+                        <p class="hero-desc">The most consistent performer in IPL history with over 5,000 runs for CSK.
+                        </p>
+                        <div class="hero-stats">
+                            <span>🏏 5,528 runs</span>
+                            <span>🏆 4 titles</span>
+                        </div>
+                        <button class="hero-btn" onclick="showPlayerModal('raina')">View Profile</button>
+                    </div>
+                </div>
+
+                <div class="hero-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="hero-image">
+                        <img src="ravindra jadeja.png" alt="Ravindra Jadeja">
+                    </div>
+                    <div class="hero-info">
+                        <h3>Ravindra Jadeja</h3>
+                        <p class="hero-role">Sir Jadeja</p>
+                        <p class="hero-desc">The all-rounder extraordinaire with exceptional fielding and match-winning
+                            performances.</p>
+                        <div class="hero-stats">
+                            <span>🏏 2,500+ runs</span>
+                            <span>🏏 139 wickets</span>
+                        </div>
+                        <button class="hero-btn" onclick="showPlayerModal('jadeja')">View Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline -->
+    <section id="timeline" class="timeline">
+        <div class="container">
+            <h2 class="section-title">CSK Journey</h2>
+            <div class="timeline-container">
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2008</div>
+                        <h3>Foundation</h3>
+                        <p>Chennai Super Kings was founded and MS Dhoni was appointed as captain</p>
+                        <div class="timeline-icon">🏏</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2010</div>
+                        <h3>First Title</h3>
+                        <p>CSK won their first IPL title defeating Mumbai Indians</p>
+                        <div class="timeline-icon">🏆</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2011</div>
+                        <h3>Back-to-Back</h3>
+                        <p>Second consecutive IPL title, establishing CSK as a powerhouse</p>
+                        <div class="timeline-icon">🦁</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2018</div>
+                        <h3>Return to Glory</h3>
+                        <p>CSK returned after suspension and won their third title</p>
+                        <div class="timeline-icon">⭐</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2021</div>
+                        <h3>Fourth Crown</h3>
+                        <p>Fourth IPL title, defeating Kolkata Knight Riders</p>
+                        <div class="timeline-icon">👑</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <h3>Fifth Title</h3>
+                        <p>Record-equaling fifth IPL title, defeating Gujarat Titans</p>
+                        <div class="timeline-icon">🏆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <h2 class="section-title">CSK by Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="zoom-in">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-number" data-target="5">0</div>
+                    <div class="stat-label">IPL Titles</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number" data-target="121">0</div>
+                    <div class="stat-label">Matches Won</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-icon">🏏</div>
+                    <div class="stat-number" data-target="15000">0</div>
+                    <div class="stat-label">Runs Scored</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-icon">🎪</div>
+                    <div class="stat-number" data-target="14">0</div>
+                    <div class="stat-label">Seasons Played</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Match Prediction Game -->
+    <section class="prediction-game">
+        <div class="container">
+            <h2 class="section-title">Match Predictor</h2>
+            <div class="prediction-content">
+                <div class="match-card">
+                    <div class="team team-csk">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/2/2b/Chennai_Super_Kings_Logo.svg"
+                            alt="CSK">
+                        <h3>CSK</h3>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="team team-opponent">
+                        <img src="mi.png" alt="MI">
+                        <h3>MI</h3>
+                    </div>
+                </div>
+                <div class="prediction-form">
+                    <h3>Predict the Winner</h3>
+                    <div class="prediction-options">
+                        <button class="prediction-btn" data-team="CSK">CSK</button>
+                        <button class="prediction-btn" data-team="MI">MI</button>
+                    </div>
+                    <div class="prediction-result" id="predictionResult"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Memories & Moments</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-aos="fade-up">
+                    <img src="csk celebration.jpg" alt="CSK Celebration">
+                    <div class="gallery-overlay">
+                        <h3>Championship Glory</h3>
+                        <p>Celebrating our 5th title</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="csk fans.webp" alt="CSK Fans">
+                    <div class="gallery-overlay">
+                        <h3>Yellow Army</h3>
+                        <p>Our passionate fans</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="csk stadium.jpg" alt="CSK Stadium">
+                    <div class="gallery-overlay">
+                        <h3>Home Ground</h3>
+                        <p>M.A. Chidambaram Stadium</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <img src="csk team.jpeg" alt="CSK Team">
+                    <div class="gallery-overlay">
+                        <h3>Team Spirit</h3>
+                        <p>One family, one dream</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fan Testimonials -->
+    <section id="fans" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Yellow Army Speaks</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up">
+                    <div class="testimonial-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                            alt="Fan">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"CSK is not just a team, it's an emotion. The way Dhoni leads the team is simply magical!"
+                        </p>
+                        <h4>Rahul Kumar</h4>
+                        <span>Chennai</span>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"Whistle Podu! The best fan experience in IPL. CSK forever!"</p>
+                        <h4>Priya Sharma</h4>
+                        <span>Mumbai</span>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="testimonial-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+                            alt="Fan">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"From 2008 to 2024, my love for CSK has only grown stronger. Yellow Army forever!"</p>
+                        <h4>Arjun Singh</h4>
+                        <span>Delhi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Join the Yellow Army</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Stay Connected</h3>
+                    <p>Be part of the most passionate fan base in IPL cricket!</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/2/2b/Chennai_Super_Kings_Logo.svg"
+                        alt="CSK Logo">
+                    <h3>Chennai Super Kings</h3>
+                </div>
+                <p>&copy; 2025 CSK Fan Zone. Whistle Podu! 🦁</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Player Modal -->
+    <div class="modal" id="playerModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element for Anthem -->
+    <audio id="anthemAudio" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
