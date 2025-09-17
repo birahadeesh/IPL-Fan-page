@@ -36,7 +36,7 @@ body {
 /* Live Ticker */
 .live-ticker {
     position: fixed;
-    top: 70px;
+    top: var(--navbar-offset, 70px);
     left: 0;
     right: 0;
     background: linear-gradient(90deg, #dc2626, #ef4444);

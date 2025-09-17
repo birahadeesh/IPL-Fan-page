@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Navbar Effects
     function initNavbarEffects() {
         const navbar = document.querySelector('.navbar');
+        const root = document.documentElement;
         let lastScrollTop = 0;
 
         window.addEventListener('scroll', () => {
@@ -103,12 +104,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Hide/show navbar on scroll
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 navbar.style.transform = 'translateY(-100%)';
+                root.style.setProperty('--navbar-offset', '0px');
             } else {
                 navbar.style.transform = 'translateY(0)';
+                root.style.setProperty('--navbar-offset', '70px');
             }
 
             lastScrollTop = scrollTop;
         });
+
+        // Initialize offset on load
+        root.style.setProperty('--navbar-offset', '70px');
     }
 
     // Mobile Menu Toggle
