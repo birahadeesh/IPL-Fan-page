@@ -44,6 +44,30 @@ body {
     z-index: 999;
     padding: 0.5rem 0;
     animation: ticker-pulse 2s infinite;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Compact state - bottom right corner */
+.live-ticker.compact {
+    top: auto;
+    bottom: 20px;
+    left: auto;
+    right: 20px;
+    width: auto;
+    min-width: 120px;
+    max-width: 200px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+    animation: compact-pulse 2s infinite, bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.live-ticker.compact:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(220, 38, 38, 0.6);
 }
 
 .ticker-content {
@@ -53,6 +77,26 @@ body {
     gap: 2rem;
     font-size: 0.9rem;
     font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Compact content - simplified */
+.live-ticker.compact .ticker-content {
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.live-ticker.compact .ticker-text,
+.live-ticker.compact .ticker-score,
+.live-ticker.compact .ticker-status {
+    display: none;
+}
+
+.live-ticker.compact .ticker-label {
+    margin: 0;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 20px;
 }
 
 .ticker-label {
@@ -61,6 +105,7 @@ body {
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     animation: blink 1s infinite;
+    transition: all 0.3s ease;
 }
 
 .ticker-text {
@@ -69,6 +114,39 @@ body {
 
 .ticker-score {
     color: var(--primary-color);
+}
+
+/* Expanded tooltip for compact view */
+.live-ticker.compact .ticker-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.live-ticker.compact:hover .ticker-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.live-ticker.compact .ticker-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
 }
 
 @keyframes ticker-pulse {
@@ -93,6 +171,29 @@ body {
     51%,
     100% {
         opacity: 0.5;
+    }
+}
+
+@keyframes compact-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(220, 38, 38, 0.6), 0 0 15px rgba(220, 38, 38, 0.3);
+    }
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.3) translate(50px, 50px);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
     }
 }
 

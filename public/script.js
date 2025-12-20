@@ -298,18 +298,97 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Live Ticker (now with real API)
     function initLiveTicker() {
+        const ticker = document.querySelector('.live-ticker');
         const tickerContent = document.querySelector('.ticker-content');
-        if (!tickerContent) return;
+        if (!tickerContent || !ticker) return;
+
+        // Store match data for compact view
+        let currentMatchData = {
+            label: 'LIVE',
+            match: 'No live matches right now',
+            score: '',
+            status: '',
+            isLive: false
+        };
+
+        const SCROLL_THRESHOLD = 100;
 
         // Helper to update the ticker UI
-        function updateTicker({ label, match, score, status }) {
-            tickerContent.innerHTML = `
-                <span class="ticker-label">${label}</span>
-                <span class="ticker-text"><b>${match}</b></span>
-                <span class="ticker-score">${score}</span>
-                <span class="ticker-status">${status}</span>
-            `;
+        function updateTicker({ label, match, score, status, isLive = false }) {
+            currentMatchData = { label, match, score, status, isLive };
+
+            const isCompact = ticker.classList.contains('compact');
+
+            if (isCompact) {
+                // Compact view - show simplified label
+                const compactLabel = isLive ? label : 'No live';
+                tickerContent.innerHTML = `
+                    <span class="ticker-label">${compactLabel}</span>
+                    <div class="ticker-tooltip">
+                        ${match}${score ? ' | ' + score : ''}${status ? ' | ' + status : ''}
+                    </div>
+                `;
+            } else {
+                // Full view - show all info
+                tickerContent.innerHTML = `
+                    <span class="ticker-label">${label}</span>
+                    <span class="ticker-text"><b>${match}</b></span>
+                    <span class="ticker-score">${score}</span>
+                    <span class="ticker-status">${status}</span>
+                `;
+            }
         }
+
+        // Scroll handler to toggle compact state
+        let scrollTimeout;
+        function handleScroll() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollY > SCROLL_THRESHOLD) {
+                    // Add compact class
+                    if (!ticker.classList.contains('compact')) {
+                        ticker.classList.add('compact');
+                        // Update content for compact view
+                        updateTicker(currentMatchData);
+                    }
+                } else {
+                    // Remove compact class
+                    if (ticker.classList.contains('compact')) {
+                        ticker.classList.remove('compact');
+                        // Update content for full view
+                        updateTicker(currentMatchData);
+                    }
+                }
+            }, 10);
+        }
+
+        // Click handler to expand compact view temporarily
+        let expandTimeout;
+        ticker.addEventListener('click', function (e) {
+            if (ticker.classList.contains('compact')) {
+                // Temporarily expand to show full info
+                ticker.classList.remove('compact');
+                updateTicker(currentMatchData);
+
+                // Auto-collapse after 5 seconds if still scrolled down
+                clearTimeout(expandTimeout);
+                expandTimeout = setTimeout(() => {
+                    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                    if (scrollY > SCROLL_THRESHOLD) {
+                        ticker.classList.add('compact');
+                        updateTicker(currentMatchData);
+                    }
+                }, 5000);
+            }
+        });
+
+        // Attach scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Check initial scroll position
+        handleScroll();
 
         // Fetch live matches from the API
         async function fetchLiveMatch() {
@@ -321,7 +400,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         label: 'LIVE',
                         match: 'No live matches right now',
                         score: '',
-                        status: ''
+                        status: '',
+                        isLive: false
                     });
                     return;
                 }
@@ -337,14 +417,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     label: 'LIVE',
                     match: matchName,
                     score: score,
-                    status: status
+                    status: status,
+                    isLive: true
                 });
             } catch (err) {
                 updateTicker({
                     label: 'LIVE',
                     match: 'No live matches right now',
                     score: '',
-                    status: ''
+                    status: '',
+                    isLive: false
                 });
             }
         }
