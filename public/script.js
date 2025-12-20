@@ -339,26 +339,70 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Scroll handler to toggle compact state
+        // Scroll handler to toggle compact state with smooth transition
         let scrollTimeout;
+        let isTransitioning = false;
+
         function handleScroll() {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
+                if (isTransitioning) return;
+
                 const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
                 if (scrollY > SCROLL_THRESHOLD) {
-                    // Add compact class
+                    // Transform to compact
                     if (!ticker.classList.contains('compact')) {
-                        ticker.classList.add('compact');
-                        // Update content for compact view
-                        updateTicker(currentMatchData);
+                        isTransitioning = true;
+
+                        // Step 1: Fade out current content
+                        ticker.classList.add('transitioning');
+
+                        // Step 2: After fade starts, change state (position starts moving)
+                        setTimeout(() => {
+                            ticker.classList.add('compact');
+
+                            // Step 3: Update content mid-transition
+                            setTimeout(() => {
+                                updateTicker(currentMatchData);
+
+                                // Step 4: Fade in new content and add bounce
+                                setTimeout(() => {
+                                    ticker.classList.remove('transitioning');
+                                    ticker.classList.add('entering');
+
+                                    // Step 5: Remove entering class after bounce
+                                    setTimeout(() => {
+                                        ticker.classList.remove('entering');
+                                        isTransitioning = false;
+                                    }, 600);
+                                }, 100);
+                            }, 200);
+                        }, 150);
                     }
                 } else {
-                    // Remove compact class
+                    // Transform back to full
                     if (ticker.classList.contains('compact')) {
-                        ticker.classList.remove('compact');
-                        // Update content for full view
-                        updateTicker(currentMatchData);
+                        isTransitioning = true;
+
+                        // Step 1: Fade out compact content
+                        ticker.classList.add('transitioning');
+
+                        // Step 2: Change state (position starts moving back)
+                        setTimeout(() => {
+                            ticker.classList.remove('compact', 'entering');
+
+                            // Step 3: Update content mid-transition
+                            setTimeout(() => {
+                                updateTicker(currentMatchData);
+
+                                // Step 4: Fade in full content
+                                setTimeout(() => {
+                                    ticker.classList.remove('transitioning');
+                                    isTransitioning = false;
+                                }, 100);
+                            }, 200);
+                        }, 150);
                     }
                 }
             }, 10);
@@ -367,18 +411,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Click handler to expand compact view temporarily
         let expandTimeout;
         ticker.addEventListener('click', function (e) {
-            if (ticker.classList.contains('compact')) {
-                // Temporarily expand to show full info
-                ticker.classList.remove('compact');
-                updateTicker(currentMatchData);
+            if (ticker.classList.contains('compact') && !isTransitioning) {
+                isTransitioning = true;
+
+                // Smoothly expand
+                ticker.classList.add('transitioning');
+                setTimeout(() => {
+                    ticker.classList.remove('compact', 'entering');
+                    updateTicker(currentMatchData);
+                    setTimeout(() => {
+                        ticker.classList.remove('transitioning');
+                        isTransitioning = false;
+                    }, 50);
+                }, 300);
 
                 // Auto-collapse after 5 seconds if still scrolled down
                 clearTimeout(expandTimeout);
                 expandTimeout = setTimeout(() => {
                     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-                    if (scrollY > SCROLL_THRESHOLD) {
-                        ticker.classList.add('compact');
-                        updateTicker(currentMatchData);
+                    if (scrollY > SCROLL_THRESHOLD && !ticker.classList.contains('compact')) {
+                        handleScroll();
                     }
                 }, 5000);
             }

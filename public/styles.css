@@ -39,14 +39,26 @@ body {
     top: var(--navbar-offset, 70px);
     left: 0;
     right: 0;
+    width: 100%;
     background: linear-gradient(90deg, #dc2626, #ef4444);
     color: var(--white);
     z-index: 999;
     padding: 0.5rem 0;
+    border-radius: 0;
     animation: ticker-pulse 2s infinite;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                right 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border-radius 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.5s ease,
+                box-shadow 0.5s ease,
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transform-origin: center center;
 }
 
 /* Compact state - bottom right corner */
@@ -62,12 +74,22 @@ body {
     border-radius: 50px;
     background: linear-gradient(135deg, #dc2626, #ef4444);
     box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
-    animation: compact-pulse 2s infinite, bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: compact-pulse 2s infinite;
+    transform: scale(1);
+}
+
+.live-ticker.compact.entering {
+    animation: compact-pulse 2s infinite, bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.live-ticker.compact.entering:hover {
+    animation: compact-pulse 2s infinite, bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .live-ticker.compact:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) !important;
     box-shadow: 0 6px 25px rgba(220, 38, 38, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ticker-content {
@@ -77,19 +99,28 @@ body {
     gap: 2rem;
     font-size: 0.9rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: gap 0.4s ease, font-size 0.4s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+/* Content fade during transition */
+.live-ticker.transitioning .ticker-content {
+    opacity: 0;
 }
 
 /* Compact content - simplified */
 .live-ticker.compact .ticker-content {
     gap: 0.5rem;
     font-size: 0.85rem;
+    opacity: 1;
 }
 
 .live-ticker.compact .ticker-text,
 .live-ticker.compact .ticker-score,
 .live-ticker.compact .ticker-status {
     display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, display 0s 0.2s;
 }
 
 .live-ticker.compact .ticker-label {
@@ -105,7 +136,12 @@ body {
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     animation: blink 1s infinite;
-    transition: all 0.3s ease;
+    transition: padding 0.4s ease, border-radius 0.4s ease, margin 0.4s ease, font-size 0.4s ease;
+    white-space: nowrap;
+}
+
+.live-ticker.compact .ticker-label {
+    animation: blink 1s infinite;
 }
 
 .ticker-text {
@@ -185,14 +221,18 @@ body {
 
 @keyframes bounce-in {
     0% {
-        transform: scale(0.3) translate(50px, 50px);
+        transform: scale(0.8);
         opacity: 0;
     }
-    50% {
-        transform: scale(1.1) translate(0, 0);
+    60% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(0.98);
     }
     100% {
-        transform: scale(1) translate(0, 0);
+        transform: scale(1);
         opacity: 1;
     }
 }
