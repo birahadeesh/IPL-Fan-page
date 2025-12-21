@@ -2,6 +2,11 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize all animations and effects
+    initPageLoader();
+    initScrollProgressBar();
+    initBackToTop();
+    initActiveSectionIndicator();
+    initSectionFadeIn();
     initScrollAnimations();
     initFloatingElements();
     initCounterAnimations();
@@ -15,6 +20,99 @@ document.addEventListener('DOMContentLoaded', function () {
     initModalSystem();
     initTimelineAnimations();
     initLiveTicker();
+
+    // Page Loader
+    function initPageLoader() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000); // Allow 1s minimal load time for effect
+        }
+    }
+
+    // Scroll Progress Bar
+    function initScrollProgressBar() {
+        const progressBar = document.getElementById('scrollProgressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = (scrollTop / scrollHeight) * 100;
+                progressBar.style.width = `${scrollPercent}%`;
+            });
+        }
+    }
+
+    // Back to Top Button
+    function initBackToTop() {
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    }
+
+    // Active Section Indicator
+    function initActiveSectionIndicator() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollY = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Offset by 150px to account for header/ticker
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Section Fade In
+    function initSectionFadeIn() {
+        const sections = document.querySelectorAll('section');
+        
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
 
     // Scroll Animation Observer
     function initScrollAnimations() {
