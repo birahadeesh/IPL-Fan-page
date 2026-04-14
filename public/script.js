@@ -544,19 +544,24 @@ document.addEventListener('DOMContentLoaded', function () {
         async function fetchLiveMatch() {
             try {
                 const res = await fetch(CRICKET_API_URL);
+                if (!res.ok) throw new Error("Backend proxy returned an error");
+                
                 const data = await res.json();
                 if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
-                    updateTicker({
-                        label: 'LIVE',
-                        match: 'No live matches right now',
-                        score: '',
-                        status: '',
-                        isLive: false
-                    });
-                    return;
+                    throw new Error("No live data from API - likely missing API key or no matches currently.");
                 }
-                // Show the first available match (any league)
-                const liveMatch = data.data[0];
+                
+                // Prioritize finding an IPL or CSK match in the list of all global matches
+                let liveMatch = data.data.find(m => {
+                    const matchName = (m.name || m.teams?.join(' ') || '').toLowerCase();
+                    return matchName.includes('chennai') || matchName.includes('csk') || matchName.includes('ipl');
+                });
+
+                // If no IPL match is found, fallback to the first active match
+                if (!liveMatch) {
+                    liveMatch = data.data[0];
+                }
+
                 const matchName = liveMatch.name || `${liveMatch.teams?.join(' vs ')}`;
                 let score = '';
                 if (liveMatch.score && Array.isArray(liveMatch.score) && liveMatch.score.length > 0) {
@@ -571,12 +576,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     isLive: true
                 });
             } catch (err) {
+                // Fallback to simulated thrilling IPL 2026 match when backend isn't available
                 updateTicker({
                     label: 'LIVE',
-                    match: 'No live matches right now',
-                    score: '',
-                    status: '',
-                    isLive: false
+                    match: 'CSK vs MI - IPL 2026 (Live from Wankhede) [Mocked Data]',
+                    score: 'CSK 198/4 (18.2) | MI 185/7 (20.0)',
+                    status: 'Ensure "node proxy.js" is running with API_KEY to see real scores!',
+                    isLive: true
                 });
             }
         }
