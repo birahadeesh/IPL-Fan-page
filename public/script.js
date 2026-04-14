@@ -540,6 +540,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check initial scroll position
         handleScroll();
 
+        // === CONFIGURATION ===
+        // Using Netlify Serverless Function
+        const CRICKET_API_URL = '/.netlify/functions/live-score';
+
         // Fetch live matches from the API
         async function fetchLiveMatch() {
             try {
