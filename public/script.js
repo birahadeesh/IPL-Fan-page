@@ -555,13 +555,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error("No live data from API - likely missing API key or no matches currently.");
                 }
                 
-                // Prioritize finding an IPL or CSK match in the list of all global matches
+                // Prioritize finding a CSK match first
                 let liveMatch = data.data.find(m => {
                     const matchName = (m.name || m.teams?.join(' ') || '').toLowerCase();
-                    return matchName.includes('chennai') || matchName.includes('csk') || matchName.includes('ipl');
+                    return matchName.includes('chennai') || matchName.includes('csk');
                 });
 
-                // If no IPL match is found, fallback to the first active match
+                // If no CSK match, try to find ANY IPL match
+                if (!liveMatch) {
+                    liveMatch = data.data.find(m => {
+                        const matchName = (m.name || m.teams?.join(' ') || '').toLowerCase();
+                        return matchName.includes('ipl') || matchName.includes('indian premier league');
+                    });
+                }
+
+                // If absolutely no IPL match is found, fallback to the first global active match
                 if (!liveMatch) {
                     liveMatch = data.data[0];
                 }
