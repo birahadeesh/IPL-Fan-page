@@ -562,12 +562,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 if (!cskMatch) {
-                    // If no CSK match is found in today's live feed, show the upcoming scheduled match!
+                    // If no CSK match is found in today's live feed, show the exact upcoming scheduled match!
                     updateTicker({
                         label: 'UPCOMING',
-                        match: 'CSK vs Next Opponent - Upcoming Match',
-                        score: 'Stay tuned for match details!',
-                        status: 'Whistle Podu!',
+                        match: 'Chennai Super Kings vs Royal Challengers Bangalore, 54th Match',
+                        score: 'May 4th, 2026 • 7:30 PM (IST)',
+                        status: 'Live from M. A. Chidambaram Stadium',
                         isLive: false
                     });
                     return;
