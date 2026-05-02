@@ -555,46 +555,55 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error("No live data from API - likely missing API key or no matches currently.");
                 }
                 
-                // Prioritize finding a CSK match first
-                let liveMatch = data.data.find(m => {
+                // Strictly filter for Chennai Super Kings matches in the API response
+                let cskMatch = data.data.find(m => {
                     const matchName = (m.name || m.teams?.join(' ') || '').toLowerCase();
                     return matchName.includes('chennai') || matchName.includes('csk');
                 });
 
-                // If no CSK match, try to find ANY IPL match
-                if (!liveMatch) {
-                    liveMatch = data.data.find(m => {
-                        const matchName = (m.name || m.teams?.join(' ') || '').toLowerCase();
-                        return matchName.includes('ipl') || matchName.includes('indian premier league');
+                if (!cskMatch) {
+                    // If no CSK match is found in today's live feed, show the upcoming scheduled match!
+                    updateTicker({
+                        label: 'UPCOMING',
+                        match: 'CSK vs Next Opponent - Upcoming Match',
+                        score: 'Stay tuned for match details!',
+                        status: 'Whistle Podu!',
+                        isLive: false
                     });
+                    return;
                 }
 
-                // If absolutely no IPL match is found, fallback to the first global active match
-                if (!liveMatch) {
-                    liveMatch = data.data[0];
-                }
-
-                const matchName = liveMatch.name || `${liveMatch.teams?.join(' vs ')}`;
+                const matchName = cskMatch.name || `${cskMatch.teams?.join(' vs ')}`;
                 let score = '';
-                if (liveMatch.score && Array.isArray(liveMatch.score) && liveMatch.score.length > 0) {
-                    score = liveMatch.score.map(s => `${s.inning}: ${s.r}/${s.w} (${s.o} ov)`).join(' | ');
+                
+                // Format the score if the match has started
+                if (cskMatch.score && Array.isArray(cskMatch.score) && cskMatch.score.length > 0) {
+                    score = cskMatch.score.map(s => `${s.inning}: ${s.r}/${s.w} (${s.o} ov)`).join(' | ');
+                } else if (cskMatch.matchStarted === false) {
+                    score = 'Match yet to begin';
                 }
-                const status = liveMatch.status || '';
+
+                const status = cskMatch.status || '';
+                const isLive = cskMatch.matchStarted && !cskMatch.matchEnded;
+                let label = 'LIVE';
+                if (!cskMatch.matchStarted) label = 'UPCOMING';
+                if (cskMatch.matchEnded) label = 'RESULT';
+
                 updateTicker({
-                    label: 'LIVE',
+                    label: label,
                     match: matchName,
-                    score: score,
+                    score: score || 'Whistle Podu!',
                     status: status,
-                    isLive: true
+                    isLive: isLive
                 });
             } catch (err) {
-                // Fallback to simulated thrilling IPL 2026 match when backend isn't available
+                // Professional fallback if the API fails entirely
                 updateTicker({
-                    label: 'LIVE',
-                    match: 'CSK vs MI - IPL 2026 (Live from Wankhede) [Mocked Data]',
-                    score: 'CSK 198/4 (18.2) | MI 185/7 (20.0)',
-                    status: 'Ensure "node proxy.js" is running with API_KEY to see real scores!',
-                    isLive: true
+                    label: 'OFFLINE',
+                    match: 'Live scores currently unavailable',
+                    score: 'Whistle Podu!',
+                    status: 'Check back later for match updates',
+                    isLive: false
                 });
             }
         }
