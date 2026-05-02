@@ -575,18 +575,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const matchName = cskMatch.name || `${cskMatch.teams?.join(' vs ')}`;
                 let score = '';
+                let status = cskMatch.status || '';
                 
                 // Format the score if the match has started
                 if (cskMatch.score && Array.isArray(cskMatch.score) && cskMatch.score.length > 0) {
                     score = cskMatch.score.map(s => `${s.inning}: ${s.r}/${s.w} (${s.o} ov)`).join(' | ');
-                } else if (cskMatch.matchStarted === false) {
-                    score = 'Match yet to begin';
+                } else {
+                    // It's likely an upcoming match from the schedule API
+                    if (cskMatch.dateTimeGMT || cskMatch.date) {
+                        try {
+                            const matchDate = new Date(cskMatch.dateTimeGMT || cskMatch.date);
+                            score = matchDate.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }) + ' (IST)';
+                        } catch (e) {
+                            score = cskMatch.date || 'Upcoming Match';
+                        }
+                    } else {
+                        score = 'Match yet to begin';
+                    }
+                    
+                    if (cskMatch.venue) {
+                        status = `Live from ${cskMatch.venue}`;
+                    }
                 }
 
-                const status = cskMatch.status || '';
-                const isLive = cskMatch.matchStarted && !cskMatch.matchEnded;
+                const isLive = cskMatch.matchStarted === true && !cskMatch.matchEnded;
                 let label = 'LIVE';
-                if (!cskMatch.matchStarted) label = 'UPCOMING';
+                if (cskMatch.matchStarted === false || !cskMatch.hasOwnProperty('matchStarted')) label = 'UPCOMING';
                 if (cskMatch.matchEnded) label = 'RESULT';
 
                 updateTicker({
