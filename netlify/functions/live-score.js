@@ -34,7 +34,8 @@ exports.handler = async function(event, context) {
         }
         
         // 4. If no CSK match is live, fetch the upcoming SCHEDULE instead
-        const scheduleUrl = `https://api.cricapi.com/v1/matches?apikey=${API_KEY}&offset=0`;
+        // Add search parameter so we specifically get CSK's schedule, bypassing pagination limits
+        const scheduleUrl = `https://api.cricapi.com/v1/matches?apikey=${API_KEY}&search=chennai&offset=0`;
         const scheduleResponse = await fetch(scheduleUrl);
         const scheduleData = await scheduleResponse.json();
         
